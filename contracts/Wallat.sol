@@ -8,12 +8,16 @@ contract Wallat {
         owner = payable(msg.sender);
     }
 
+    event WithDraw(uint _amount);
+
     receive() external payable{}
 
     function withDraw(uint _amount) external{
         require(msg.sender == owner,"You are not the owner");
         require(_amount <= address(this).balance);
         payable(msg.sender).transfer(_amount);
+
+        emit WithDraw(_amount);
     }
 
     function getBalance() external view returns(uint){
